@@ -2,6 +2,7 @@ const inquirer = require("inquirer");
 const chalk = require("chalk");
 
 const fs = require("fs");
+const { parse } = require("path");
 
 operation();
 
@@ -210,15 +211,41 @@ function withdraw() {
             message: "Quanto voce deseja sacar?",
           },
         ])
-        .then((answer) =>{
+        .then((answer) => {
+          const amount = answer["amount"];
 
-          const amount = answer['amount']
-
-          console.log(amount)
-          operation()
-
+          removeAmount(accountName, amount);
         })
         .catch((err) => console.log(err));
     })
     .catch((err) => console.log(err));
+}
+
+function removeAmount(accountName, amount) {
+  const accountData = getAccount(accountName);
+
+  if (!amount) {
+    console.log(
+      chalk.bgRed.black("Ocorreu um erro, tente novamente mais tarde!")
+    );
+    return withdraw();
+  }
+
+  if (accountData.balance < amount) {
+    console.log(chalk.bgRed.black("Valor indisponivel!"));
+    return withdraw();
+  }
+
+  accountData.balance = parseFloat(accountData.balance) - parseFloat(amount);
+
+  fs.writeFileSync(
+    `accounts/${accountName}.json`,
+    JSON.stringify(accountData),
+    function (err) {
+      console.log(err);
+    }
+  );
+
+  console.log(chalk.green(`Foi realizado um saque de R$${amount} da sua conta!`))
+  operation()
 }
