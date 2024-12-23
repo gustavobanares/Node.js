@@ -1,0 +1,12 @@
+body{
+    background: grey;
+}
+
+h1{
+    text-align: center;
+}
+
+a{
+    color: rgb(11, 227, 235);
+    font-style: bold;
+}
