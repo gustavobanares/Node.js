@@ -3,7 +3,7 @@ import { myMiddleware } from "../middleware/my-middleware";
 
 const productRoutes = Router()
 
-productRoutes.get("/:id", (request, response) => {
+productRoutes.get("/", (request, response) => {
     const { page, limit } = request.query;
   
     response.send(`Pagina ${page} de ${limit}`);
