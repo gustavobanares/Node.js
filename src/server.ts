@@ -1,11 +1,12 @@
-import express from 'express'
+import express from "express";
 
-const PORT = 3333
+const PORT = 3333;
 
-const app = express()
+const app = express();
 
-app.get('/', (request, response) =>{
-    response.send('Hello World Express!')
-})
+app.get("/products/:id/:user", (request, response) => {
+  const { id, user } = request.params;
+  response.send(`Produto ${id} do usuario ${user}`);
+});
 
-app.listen(PORT, () => console.log(`Server is running at ${PORT}`))
+app.listen(PORT, () => console.log(`Server is running at ${PORT}`));
